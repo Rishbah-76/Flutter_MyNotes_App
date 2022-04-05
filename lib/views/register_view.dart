@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 //import 'package:notes/firebase_options.dart';
 
+import 'dart:developer' as devtools show log;
+
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
 
@@ -59,22 +61,23 @@ class _RegisterViewState extends State<RegisterView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                final Usercredential =
+                final userCredential =
                     await FirebaseAuth.instance.createUserWithEmailAndPassword(
                   email: email,
                   password: password,
                 );
-                print(Usercredential);
+                //print(userCredential);
+                devtools.log(userCredential.toString());
               } on FirebaseAuthException catch (e) {
-                print(e.code);
+                devtools.log(e.code);
                 if (e.code == 'weak-password') {
-                  print("Weak Password");
+                  devtools.log("Weak Password");
                 } else if (e.code == 'email-already-in-use') {
-                  print("Email already is use");
+                  devtools.log("Email already is use");
                 } else if (e.code == 'invalid-email') {
-                  print("Email is Invalid use proper Email");
+                  devtools.log("Email is Invalid use proper Email");
                 } else {
-                  print("Something went wrong");
+                  devtools.log("Something went wrong");
                 }
               }
             },
